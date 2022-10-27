@@ -19,7 +19,8 @@ if __name__ == '__main__':
     print_hi('PyCharm')
     # New comment to demo git
     print('Hello from git')
-
+    # Another comment
+    print('2nd line to test git')
 
 
 
