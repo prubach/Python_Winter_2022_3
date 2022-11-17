@@ -34,3 +34,6 @@ print(f'l3={l3}')
 l4 = [14231, 2523, 252, 'Hello from Python 3', 7578, 967]
 #TODO extract the word "Python" from l4
 #TODO sum up all numbers in l4 (type - use to check the type of variable)
+
+l5 = [x*2 for x in l3]
+print(l5)
