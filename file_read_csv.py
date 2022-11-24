@@ -1,3 +1,6 @@
+#my_file = 'c:\\users\prubac\Desktop\my_matrix.csv'
+#my_file = r'c:\users\prubac\Desktop\my_matrix.csv'
+my_file = 'c:/users/prubac/Desktop/my_matrix.csv'
 my_file = 'my_matrix.csv'
 
 m = []
