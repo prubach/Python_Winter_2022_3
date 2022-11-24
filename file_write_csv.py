@@ -2,6 +2,7 @@ from file_read_csv import m
 print(m)
 
 my_out_file = 'my_matrix_out.csv'
+# 'a' - append to end of file
 with open(my_out_file, 'w') as f:
     for r in m:
         print(r)
