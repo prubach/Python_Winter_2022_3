@@ -38,9 +38,9 @@ def sum_bowls_seq(n):
     return int(n*(n+1)/2)
 
 # print(sum_bowls_recursive(n))
-
-n = 998
-print('Sum bowls using for loop for n={}: {}'.format(n, sum_bowls_loop(n)))
-print('Sum bowls using while loop for n={}: {}'.format(n, sum_bowls_loop_while(n)))
-print('Sum bowls using recursion for n={}: {}'.format(n, sum_bowls_recursive(n)))
-print('Sum bowls using sequence for n={}: {}'.format(n, sum_bowls_seq(n)))
+if __name__ == '__main__':
+    n = 998
+    print('Sum bowls using for loop for n={}: {}'.format(n, sum_bowls_loop(n)))
+    print('Sum bowls using while loop for n={}: {}'.format(n, sum_bowls_loop_while(n)))
+    print('Sum bowls using recursion for n={}: {}'.format(n, sum_bowls_recursive(n)))
+    print('Sum bowls using sequence for n={}: {}'.format(n, sum_bowls_seq(n)))
