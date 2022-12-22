@@ -20,8 +20,32 @@ class Account:
         self.id = Account.last_id
         self._balance = 0
 
+    def deposit(self, amount):
+        #TODO implement
+        pass
+
+    def charge(self, amount):
+        #TODO implement
+        pass
+
     def __repr__(self):
         return f'Account[{self.id}, {self.customer.lastname}, {self._balance}]'
+
+
+class Bank:
+    def __init__(self):
+        self.customer_list = []
+        self.account_list = []
+
+    def create_customer(self, firstname, lastname):
+        c = Customer(firstname, lastname)
+        self.customer_list.append(c)
+        return c
+
+    def create_account(self, customer):
+        a = Account(customer)
+        self.account_list.append(a)
+        return a
 
 
 c = Customer('John', 'Brown')
