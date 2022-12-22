@@ -47,8 +47,17 @@ class Bank:
         self.account_list.append(a)
         return a
 
+    def __repr__(self):
+        return f'Bank[{self.customer_list}; {self.account_list}]'
 
-c = Customer('John', 'Brown')
+bank = Bank()
+
+c = bank.create_customer('John', 'Brown')
 print(c)
-a = Account(c)
+a = bank.create_account(c)
+a2 = bank.create_account(c)
 print(a)
+
+c2 = bank.create_customer('Anne', 'Smith')
+a3 = bank.create_account(c2)
+print(bank)
