@@ -22,13 +22,9 @@ class Account:
 
     def deposit(self, amount):
         #TODO implement
-        if type(amount)!=int or amount < 0:
+        if type(amount) != int or amount < 0:
             raise InvalidAmountException(f'Amount is invalid {amount}')
-            #print('Amount is invalid')
-            #return False
-        #else:
         self._balance += amount
-        #return True
 
     def charge(self, amount):
         #TODO implement
@@ -80,8 +76,22 @@ c2 = bank.create_customer('Anne', 'Smith')
 a3 = bank.create_account(c2)
 print(bank)
 print('--------')
-a3.deposit(100)
-a3.deposit(-50)
+try:
+    #a = None
+    #a.deposit(330)
+    a3.deposit(100)
+    #a3.deposit(-50)
+except BankException as ie:
+    print(f'Something went wrong {ie}')
+#except (InvalidAmountException, InsufficientFundsException) as ie:
+#    print(f'Something went wrong {ie}')
+except Exception as e:
+    print(f'Exception was thrown: {e}')
+else:
+    print('Run it when no exception occured')
+finally:
+    print('This was run at the end')
+
 
 # if a3.deposit(100):
 #     print('deposit succeeded')
