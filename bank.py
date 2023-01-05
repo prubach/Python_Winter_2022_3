@@ -23,11 +23,12 @@ class Account:
     def deposit(self, amount):
         #TODO implement
         if type(amount)!=int or amount < 0:
-            print('Amount is invalid')
-            return False
-        else:
-            self._balance += amount
-            return True
+            raise InvalidAmountException(f'Amount is invalid {amount}')
+            #print('Amount is invalid')
+            #return False
+        #else:
+        self._balance += amount
+        #return True
 
     def charge(self, amount):
         #TODO implement
@@ -55,6 +56,18 @@ class Bank:
     def __repr__(self):
         return f'Bank[{self.customer_list}; {self.account_list}]'
 
+
+class BankException(Exception):
+    pass
+
+
+class InsufficientFundsException(BankException):
+    pass
+
+
+class InvalidAmountException(BankException):
+    pass
+
 bank = Bank()
 
 c = bank.create_customer('John', 'Brown')
@@ -67,15 +80,16 @@ c2 = bank.create_customer('Anne', 'Smith')
 a3 = bank.create_account(c2)
 print(bank)
 print('--------')
+a3.deposit(100)
+a3.deposit(-50)
 
-
-if a3.deposit(100):
-    print('deposit succeeded')
-else:
-    print('deposit failed')
-print(bank)
-if a3.deposit(-50):
-    print('deposit succeeded')
-else:
-    print('deposit failed')
+# if a3.deposit(100):
+#     print('deposit succeeded')
+# else:
+#     print('deposit failed')
+# print(bank)
+# if a3.deposit(-50):
+#     print('deposit succeeded')
+# else:
+#     print('deposit failed')
 print(bank)
