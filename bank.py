@@ -28,6 +28,9 @@ class Account:
 
     def charge(self, amount):
         #TODO implement
+        if type(amount) != int or amount < 0:
+            raise InvalidAmountException(f'Amount is invalid {amount}')
+
         pass
 
     def __repr__(self):
@@ -48,6 +51,14 @@ class Bank:
         a = Account(customer)
         self.account_list.append(a)
         return a
+
+    def transfer(self, from_account_id, to_account_id, amount):
+        #TODO
+        pass
+
+    def find_account(self, account_id):
+        #TODO
+        pass
 
     def __repr__(self):
         return f'Bank[{self.customer_list}; {self.account_list}]'
@@ -78,6 +89,7 @@ print(bank)
 print('--------')
 try:
     #a = None
+    #raise ValueError('aafafa')
     #a.deposit(330)
     a3.deposit(100)
     #a3.deposit(-50)
@@ -102,4 +114,8 @@ finally:
 #     print('deposit succeeded')
 # else:
 #     print('deposit failed')
+print('before transfer')
+print(bank)
+bank.transfer(1003, 1002, 140)
+print('after transfer')
 print(bank)
