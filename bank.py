@@ -22,7 +22,12 @@ class Account:
 
     def deposit(self, amount):
         #TODO implement
-        pass
+        if type(amount)!=int or amount < 0:
+            print('Amount is invalid')
+            return False
+        else:
+            self._balance += amount
+            return True
 
     def charge(self, amount):
         #TODO implement
@@ -60,4 +65,17 @@ print(a)
 
 c2 = bank.create_customer('Anne', 'Smith')
 a3 = bank.create_account(c2)
+print(bank)
+print('--------')
+
+
+if a3.deposit(100):
+    print('deposit succeeded')
+else:
+    print('deposit failed')
+print(bank)
+if a3.deposit(-50):
+    print('deposit succeeded')
+else:
+    print('deposit failed')
 print(bank)
