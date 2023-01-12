@@ -1,4 +1,4 @@
-from bank_model import init_db, Bank, DBSession
+from bank_model import init_db, Bank, DBSession, Customer
 
 db = DBSession.db_session()
 
@@ -27,6 +27,22 @@ def add_data():
     print(bank)
     db.commit()
 
+def perform_operations():
+    custs = db.query(Customer).filter(Customer.lastname.like('Br%')).all()
+    for c in custs:
+        print(c)
+        for a in c.accounts:
+            print(a)
+            a.deposit(1000)
+            db.merge(a)
+        print(c.accounts)
+    db.commit()
+
+
+if __name__ == '__main__':
+    #initialize()
+    #add_data()
+    perform_operations()
 
 #
 # bank = Bank()
@@ -73,7 +89,3 @@ def add_data():
 # bank.transfer(1003, 1002, 140)
 # print('after transfer')
 # print(bank)
-
-if __name__ == '__main__':
-    #initialize()
-    add_data()
