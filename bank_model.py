@@ -1,7 +1,7 @@
-from sqlalchemy import Column, Integer, String, Float, create_engine
+from sqlalchemy import Column, Integer, String, Float, create_engine, ForeignKey
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 
 Base = declarative_base()
 
@@ -11,7 +11,9 @@ class Customer(Base):
     firstname = Column(String(80), nullable=True)
     lastname = Column(String(80), nullable=False)
     email = Column(String(150), nullable=False)
-
+    accounts = relationship('Account', back_populates='customer')
+    fk_bank_id = Column(Integer, ForeignKey('bank.id'), index=True, nullable=False)
+    bank = relationship('Bank', back_populates='customers')
 
     def __init__(self, firstname, lastname, email):
         self.firstname = firstname
@@ -26,6 +28,10 @@ class Account(Base):
     __tablename__ = 'account'
     id = Column(Integer, primary_key=True, autoincrement=True)
     balance = Column(Float, default=0)
+    fk_customer_id = Column(Integer, ForeignKey(Customer.id), index=True, nullable=False)
+    customer = relationship(Customer, back_populates='accounts')
+    fk_bank_id = Column(Integer, ForeignKey('bank.id'), index=True, nullable=False)
+    bank = relationship('Bank', back_populates='accounts')
 
     def __init__(self, customer):
         self.customer = customer
@@ -43,7 +49,6 @@ class Account(Base):
             raise InvalidAmountException(f'Amount is invalid {amount}')
         self.balance -= amount
 
-
     def __repr__(self):
         return f'Account[{self.id}, {self.customer.lastname}, {self.balance}]'
 
@@ -52,20 +57,21 @@ class Bank(Base):
     __tablename__ = 'bank'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(50), nullable=False)
+    customers = relationship(Customer, lazy='select', back_populates='bank')
+    accounts = relationship(Account, lazy='select', back_populates='bank')
 
     def __init__(self, name):
         self.name = name
-        self.customer_list = []
-        self.account_list = []
 
-    def create_customer(self, firstname, lastname):
-        c = Customer(firstname, lastname)
-        self.customer_list.append(c)
+    def create_customer(self, firstname, lastname, email):
+        c = Customer(firstname, lastname, email)
+        c.bank = self
         return c
+
 
     def create_account(self, customer):
         a = Account(customer)
-        self.account_list.append(a)
+        a.bank = self
         return a
 
     def transfer(self, from_account_id, to_account_id, amount):
@@ -77,7 +83,7 @@ class Bank(Base):
         pass
 
     def __repr__(self):
-        return f'Bank[{self.customer_list}; {self.account_list}]'
+        return f'Bank[{self.name}; {self.customers}; {self.accounts}]'
 
 
 class BankException(Exception):
