@@ -9,6 +9,25 @@ def initialize():
     db.commit()
 
 
+
+def add_data():
+    bank = db.query(Bank).filter(Bank.id == 1).first()
+    c = bank.create_customer('John', 'Brown', 'john@brown')
+    db.add(c)
+    print(c)
+    a = bank.create_account(c)
+    db.add(a)
+    a2 = bank.create_account(c)
+    db.add(a2)
+    print(a)
+    c2 = bank.create_customer('Anne', 'Smith', 'anne@smith')
+    db.add(c2)
+    a3 = bank.create_account(c2)
+    db.add(a3)
+    print(bank)
+    db.commit()
+
+
 #
 # bank = Bank()
 #
@@ -56,4 +75,5 @@ def initialize():
 # print(bank)
 
 if __name__ == '__main__':
-    initialize()
+    #initialize()
+    add_data()
