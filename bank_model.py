@@ -97,7 +97,7 @@ class DBSession:
 
     @classmethod
     def engine(cls):
-        return create_engine("sqlite:///bank.db")
+        return create_engine("sqlite:///bank.db", echo=True)
 
     @classmethod
     def db_session(cls):

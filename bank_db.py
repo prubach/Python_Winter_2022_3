@@ -54,3 +54,6 @@ def initialize():
 # bank.transfer(1003, 1002, 140)
 # print('after transfer')
 # print(bank)
+
+if __name__ == '__main__':
+    initialize()
