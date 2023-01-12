@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, create_engine
 
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 
@@ -90,47 +91,21 @@ class InsufficientFundsException(BankException):
 class InvalidAmountException(BankException):
     pass
 
-bank = Bank()
 
-c = bank.create_customer('John', 'Brown')
-print(c)
-a = bank.create_account(c)
-a2 = bank.create_account(c)
-print(a)
+class DBSession:
+    current_db_session = None
 
-c2 = bank.create_customer('Anne', 'Smith')
-a3 = bank.create_account(c2)
-print(bank)
-print('--------')
-try:
-    #a = None
-    #raise ValueError('aafafa')
-    #a.deposit(330)
-    a3.deposit(100)
-    #a3.deposit(-50)
-except BankException as ie:
-    print(f'Something went wrong {ie}')
-#except (InvalidAmountException, InsufficientFundsException) as ie:
-#    print(f'Something went wrong {ie}')
-except Exception as e:
-    print(f'Exception was thrown: {e}')
-else:
-    print('Run it when no exception occured')
-finally:
-    print('This was run at the end')
+    @classmethod
+    def engine(cls):
+        return create_engine("sqlite:///bank.db")
 
+    @classmethod
+    def db_session(cls):
+        if not cls.current_db_session:
+            Session = sessionmaker(bind=cls.engine(), autoflush=False, autocommit=False)
+            cls.current_db_session = Session()
+        return cls.current_db_session
 
-# if a3.deposit(100):
-#     print('deposit succeeded')
-# else:
-#     print('deposit failed')
-# print(bank)
-# if a3.deposit(-50):
-#     print('deposit succeeded')
-# else:
-#     print('deposit failed')
-print('before transfer')
-print(bank)
-bank.transfer(1003, 1002, 140)
-print('after transfer')
-print(bank)
+def init_db():
+    Base.metadata.create_all(bind=DBSession.engine())
+
